@@ -1,7 +1,7 @@
 #pip install pythainlp==3.1.1
 #pip install gensim
 
-# Documentation : https://pythainlp.github.io/docs/3.1/
+#  Documentation : https://pythainlp.github.io/docs/3.1/
 
 import codecs,json,pickle
 from sklearn.linear_model import ElasticNet
