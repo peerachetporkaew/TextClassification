@@ -2,6 +2,7 @@ from bert_classifier import *
 from torch.nn import CrossEntropyLoss
 import torch.optim as optim
 
+device = "cuda:0"
 
 def load_data():
 
@@ -26,9 +27,9 @@ def train(model, lossfn, optimizer, data):
 
     for i in range(0,20):
         optimizer.zero_grad()
-        predict = model(train_x)
+        predict = model(train_x.to(device))
 
-        loss = lossfn(predict, train_y)
+        loss = lossfn(predict, train_y.to(device))
         print("LOSS = ", loss.item())
         loss.backward()
 
@@ -38,14 +39,16 @@ def main():
     
     train_x, train_y = load_data()
     model = HoogBERTaClassifier(2)
+    model = model.to(device)
 
     loss = CrossEntropyLoss(reduction="mean")
 
     optimizer = optim.SGD(model.parameters(), lr = 0.001)
+    
 
     train(model, loss, optimizer, (train_x, train_y))
 
-    predict = model(train_x)
+    predict = model(train_x.to(device))
     predict = predict.argmax(dim=-1)
 
     print(predict)
